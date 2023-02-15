@@ -1,31 +1,25 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCircleQuestion,
-    faCircleXmark,
     faCoins,
     faEarthAsia,
     faEllipsisVertical,
     faGear,
     faKeyboard,
-    faMagnifyingGlass,
     faSignOut,
-    faSpinner,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '@/components/Button';
 import images from '@/assets/images';
 import styles from './Header.module.scss';
-import { Wrapper as PopperWrapper } from '@/components/Layout/Popper';
-import AccountsItem from '@/components/AccountItem';
 import Menu from '@/components/Layout/Popper/Menu';
-import HeadlessTippy from '@tippyjs/react/headless';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { UploadIcon } from '@/components/icons';
+import { InboxIcon, MessageIcon, UploadIcon } from '@/components/icons';
 import Image from '@/components/image';
+import Search from '../Search';
 
 const cx = classNames.bind(styles);
 const MENU_ITEMS = [
@@ -86,14 +80,8 @@ const userMenu = [
 
 
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
     const currentUser = true;
 
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([]); //call api
-        }, 2000);
-    });
 
     // Handle logic
     const handleMenuChange = (menuItem) => {
@@ -113,36 +101,25 @@ function Header() {
                 <div className={cx('logo')}>
                     <img src={images.logo} alt="TIKTOK" />
                 </div>
-                <HeadlessTippy
-                    interactive
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            <PopperWrapper>
-                                <h4 className={cx('search-title')}>Accounts</h4>
-                                <AccountsItem />
-                            </PopperWrapper>
-                        </div>
-                    )}
-                >
-                    <div className={cx('search')}>
-                        <input placeholder="search accounts and videos" spellCheck={false} />
-                        <button className={cx('search-clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </HeadlessTippy>
+                <Search />
 
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Tippy  delay={[0, 200]} content="Upload video" placement="bottom">
+                             <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <UploadIcon />
+                                </button>
+                            </Tippy>
+                            <Tippy delay={[0, 50]} content="Message" placement="bottom">
+                                <button className={cx('action-btn')}>
+                                    <MessageIcon />
+                                </button>
+                            </Tippy>
+                            <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
+                                <button className={cx('action-btn')}>
+                                    <InboxIcon />
+                                    <span className={cx('badge')}>12</span>
                                 </button>
                             </Tippy>
                         </>
@@ -158,6 +135,7 @@ function Header() {
                                 className={cx('user-avatar')}
                                 src=""
                                 alt="Nguyen Van A"
+                                user
                             />
                         ) : (
                             <button className={cx('more-btn')}>

@@ -10,7 +10,7 @@ import Search from '@/pages/Search';
 const publicRoutes = [
     {path : '/' , comment: Home },
     {path : '/following' , comment: Following},
-    {path : '/profile' , comment: Profile},
+    {path: '/@/:nickname' , comment: Profile},
     {path : '/upload' , comment: Upload, layout : HeaderOnly},
     {path : '/search' , comment: Search, layout: null},
 
